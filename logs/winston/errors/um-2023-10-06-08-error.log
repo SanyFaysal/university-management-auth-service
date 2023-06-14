@@ -1,0 +1,2 @@
+ Sat Jun 10 2023 8:41:37 [UM] error: Failed to connect to the database: confi is not defined
+ Sat Jun 10 2023 8:42:13 [UM] error: Failed to connect to the database:  querySrv ECONNREFUSED _mongodb._tcp.cluster0.d0oxuun.mongodb.net
