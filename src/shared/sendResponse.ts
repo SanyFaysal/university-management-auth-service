@@ -8,15 +8,14 @@ type IApiResponse<T> = {
     limit?: number;
     total?: number;
   };
-  data: T | null;
+  data?: T | null;
 };
 const sendResponse = <T>(res: Response, data: IApiResponse<T>): void => {
-  console.log('came here');
   const responseData: IApiResponse<T> = {
     statusCode: data.statusCode,
     success: data.success,
     message: data.message || null,
-    meta: data.meta,
+    meta: data.meta || undefined,
     data: data.data || null,
   };
   res.status(data.statusCode).json(responseData);

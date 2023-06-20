@@ -12,12 +12,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1', routes);
-
 // testing;
-app.get('/', async () => {
-  Promise.reject(new Error('Unhandled error promise rejection'));
+app.get('/', async (req: Request, res: Response) => {
+  res.status(200).json({ message: 'okk' });
 });
+
+app.use('/api/v1', routes);
 
 app.use(globalErrorHandler);
 
@@ -28,7 +28,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     errorMessages: [
       {
         path: req.originalUrl,
-        message: 'Api not found',
+        message: 'API Not Found',
       },
     ],
   });

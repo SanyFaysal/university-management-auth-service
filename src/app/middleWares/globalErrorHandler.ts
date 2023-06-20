@@ -7,13 +7,14 @@ import handleValidationError from '../../errors/handleValidationError';
 import ApiError from '../../errors/ApiError';
 import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
-import { errorLogger } from '../../shared/logger';
+
+import handleCastError from '../../errors/handleCastError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  config.env === 'development'
-    ? console.log('globalErrorHandler ~', error)
-    : errorLogger.error('globalErrorHandler ~', error);
-  console.log(error);
+  // config.env === 'development'
+  //   ? console.log('globalErrorHandler ~', error)
+  //   : errorLogger.error('globalErrorHandler ~', error);
+  // console.log(error);
   let statusCode = 500;
   let message = 'something went Wrong';
   let errorMessages: IGenericErrorMessage[] = [];
@@ -29,8 +30,12 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
+  } else if (error?.name === 'CastError') {
+    const simplifiedError = handleCastError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
   } else if (error instanceof Error) {
-    console.log('dukcheeee');
     message = error?.message;
     errorMessages = error?.message
       ? [
